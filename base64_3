@@ -1,0 +1,17 @@
+from flask import Flask, request, render_template
+import base64
+
+app = Flask(__name__)
+
+@app.route('/', methods=['GET', 'POST'])
+def converter_base64():
+    valor_base64 = ''
+    if request.method == 'POST':
+        valor = request.form.get('valor')
+        valor_bytes = valor.encode('utf-8') # converte o valor para bytes
+        valor_base64 = base64.b64encode(valor_bytes) # converte para base64
+        valor_base64 = valor_base64.decode('utf-8') # converte de volta para string
+    return render_template('index.html', valor_base64=valor_base64)
+
+if __name__ == "__main__":
+    app.run(debug=True)
